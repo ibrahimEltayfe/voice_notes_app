@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'app_dimensions.dart';
-
-
 class AppTextStyles{
   AppTextStyles._();
 
   static String appFont = "dubai";
 
   static TextStyle regular({
-    double fontSize = AppDimensions.medium,
+    double fontSize = 16,
     Color color = Colors.black,
     TextDecoration? textDecoration,
   }){
@@ -23,7 +20,7 @@ class AppTextStyles{
   }
 
   static TextStyle medium({
-    double fontSize = AppDimensions.medium,
+    double fontSize = 16,
     Color color = Colors.black,
     TextDecoration? textDecoration,
     double? height
@@ -39,7 +36,7 @@ class AppTextStyles{
   }
 
   static TextStyle bold({
-    double fontSize = AppDimensions.medium,
+    double fontSize = 16,
     Color color = Colors.black,
     TextDecoration? textDecoration
   }){
