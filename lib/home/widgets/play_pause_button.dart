@@ -21,7 +21,6 @@ class PlayPauseButton extends StatelessWidget {
           padding: EdgeInsets.only(
             left: isPlaying ? 0 : 4,
           ),
-         // color: AppColors.primary,
           child: Icon(
             isPlaying ? FeatherIcons.pause : FeatherIcons.play,
             color: AppColors.background,

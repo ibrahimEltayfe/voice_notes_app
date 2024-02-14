@@ -1,25 +1,21 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:voice_notes/home/manager/audio_recorder_controller/audio_recorder_file_helper.dart';
-import 'package:voice_notes/home/models/voicee_note_model.dart';
+import 'package:voice_notes/home/manager/audio_recorder_manager/audio_recorder_file_helper.dart';
+import 'package:voice_notes/home/model/voice_note_model.dart';
 
 part 'voice_notes_state.dart';
 
 class VoiceNotesCubit extends Cubit<VoiceNotesState> {
   final AudioRecorderFileHelper audioRecorderFileHelper;
   VoiceNotesCubit(this.audioRecorderFileHelper) : super(VoiceNotesInitial());
-  
+
+  int get fetchLimit => audioRecorderFileHelper.fetchLimit;
+
   void getAllVoiceNotes(int pageKey) async{
-    emit(VoiceNotesLoading());
-    
     try{
       final voiceNotes = await audioRecorderFileHelper.fetchVoiceNotes(pageKey);
       emit(VoiceNotesFetched(voiceNotes: voiceNotes));
-
     }catch(e){
-      log(e.toString());
       //todo: handle errors
       emit(const VoiceNotesError(message: 'error'));
     }
@@ -35,7 +31,7 @@ class VoiceNotesCubit extends Cubit<VoiceNotesState> {
     }
   }
 
-  void addToNotes(VoiceNoteModel voiceNoteModel){
+  void addToVoiceNotes(VoiceNoteModel voiceNoteModel) async{
     emit(VoiceNoteAdded(voiceNoteModel: voiceNoteModel));
   }
 }

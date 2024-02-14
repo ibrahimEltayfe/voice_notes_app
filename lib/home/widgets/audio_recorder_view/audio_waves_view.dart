@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:voice_notes/core/utils/constants/app_colors.dart';
-import 'package:voice_notes/home/manager/audio_recorder_controller/audio_recorder_controller.dart';
+import 'package:voice_notes/home/manager/audio_recorder_manager/audio_recorder_controller.dart';
 
 class AudioWavesView extends StatefulWidget {
   const AudioWavesView({super.key});
@@ -14,90 +14,80 @@ class AudioWavesView extends StatefulWidget {
 
 class _AudioWavesViewState extends State<AudioWavesView> {
   final ScrollController scrollController = ScrollController();
-  late StreamSubscription amplitudeSubscription;
+
   List<double> amplitudes = [];
-  double wavesMaxHeight = 45;
+  late StreamSubscription<double> amplitudeSubscription;
+
+  double wavesMaxHeight = 50;
+  final double minimumAmpl = -50;
 
   @override
   void initState() {
-    amplitudeSubscription = context.read<AudioRecorderController>().amplitudeStream.listen(_amplitudeListener);
+    amplitudeSubscription = context.read<AudioRecorderController>().amplitudeStream.listen((amp) {
+      setState(() {
+        amplitudes.add(amp);
+      });
+
+      if(scrollController.positions.isNotEmpty){
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          curve: Curves.linear,
+          duration: const Duration(milliseconds: 160)
+        );
+      }
+    });
+
     super.initState();
   }
 
   @override
   void dispose() {
-    scrollController.dispose();
     amplitudeSubscription.cancel();
     super.dispose();
   }
-
-  void _amplitudeListener(double ampl){
-    setState(() {
-      amplitudes.add(ampl);
-    });
-
-    if(scrollController.positions.isNotEmpty){
-      scrollController.animateTo(
-        scrollController.position.maxScrollExtent,
-        curve: Curves.linear,
-        duration: const Duration(milliseconds: 175)
-      );
-    }
-  }
-
+  
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: SizedBox(
-        height: wavesMaxHeight,
-        child: ListView.builder(
-          controller: scrollController,
-          physics: const NeverScrollableScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          itemCount: amplitudes.length,
-          shrinkWrap: true,
-          itemExtent: 6,
-          itemBuilder: (context, index) {
-            double paddingValue;
+    return SizedBox(
+      height: wavesMaxHeight,
+      child: ListView.builder(
+        controller: scrollController,
+        itemCount: amplitudes.length,
+        scrollDirection: Axis.horizontal,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          double amplitude = amplitudes[index].clamp(minimumAmpl+1, 0);
 
-            if(amplitudes[index] >= 0){
-              //if amplifier is positive or 0 (very high volume)
-              paddingValue = 0;
-            }else{
-              paddingValue = wavesMaxHeight * (amplitudes[index].abs() / wavesMaxHeight);
-              if(paddingValue >= wavesMaxHeight){
-                //if the value is very low
-                paddingValue = wavesMaxHeight *0.99;
-              }
-            }
+          double amplPercentage = 1 - (amplitude / minimumAmpl).abs();
 
-            return TweenAnimationBuilder<double>(
-              tween: Tween(begin: wavesMaxHeight,end: paddingValue/2),
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.decelerate,
-              builder: (context, value, child) {
-                return Padding(
-                  padding: EdgeInsets.only(
-                    top: value,
-                    bottom: value,
-                    left: 1,
-                    right: 1,
-                  ),
+          double waveHeight = wavesMaxHeight * amplPercentage;
 
-                  child: child,
-                );
-              },
-              child: DecoratedBox(
-                decoration: BoxDecoration(
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2.0),
+            child: Center(
+              child: TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0, end: waveHeight),
+                duration: const Duration(milliseconds: 120),
+                curve: Curves.decelerate,
+                builder: (context, animatedWaveHeight, child) {
+                  return SizedBox(
+                    height: animatedWaveHeight,
+                    width: 8,
+                    child: child
+                  );
+                },
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
                     color: AppColors.primary,
                     borderRadius: BorderRadius.circular(8)
+                  )
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
+
     );
   }
 }

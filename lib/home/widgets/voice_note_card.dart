@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:voice_notes/core/utils/app_bottom_sheet.dart';
 import 'package:voice_notes/core/utils/constants/app_colors.dart';
 import 'package:voice_notes/core/utils/constants/app_styles.dart';
-import 'package:voice_notes/home/manager/home_cubit/voice_notes_cubit.dart';
-import 'package:voice_notes/home/models/voicee_note_model.dart';
-
-import 'audio_player_view/audio_player_view.dart';
-import 'play_pause_button.dart';
+import 'package:voice_notes/home/manager/voice_notes_cubit/voice_notes_cubit.dart';
+import 'package:voice_notes/home/model/voice_note_model.dart';
+import 'package:voice_notes/home/widgets/audio_player_view/audio_player_view.dart';
+import 'package:voice_notes/home/widgets/play_pause_button.dart';
 
 class VoiceNoteCard extends StatelessWidget {
   final VoiceNoteModel voiceNoteInfo;
@@ -23,30 +21,30 @@ class VoiceNoteCard extends StatelessWidget {
           context,
           showCloseButton: true,
           builder: (p0) {
-          return AudioPlayerView(
-            path: voiceNoteInfo.path,
-          );
-        },);
+            return AudioPlayerView(
+              path: voiceNoteInfo.path,
+            );
+          },);
       },
-      onLongPressStart: (details) {
+      onLongPressStart: (details){
         final offset = details.globalPosition;
 
         showMenu(
-            context: context,
-            position: RelativeRect.fromLTRB(
-              offset.dx,
-              offset.dy,
-              MediaQuery.of(context).size.width - offset.dx,
-              MediaQuery.of(context).size.height - offset.dy,
-            ),
-            items: [
-              PopupMenuItem(
-                onTap: () {
-                  context.read<VoiceNotesCubit>().deleteRecordFile(voiceNoteInfo);
-                },
-                child: Text("Delete",style: AppTextStyles.medium(),),
-              ),
-            ]
+          context: context,
+          position: RelativeRect.fromLTRB(
+            offset.dx,
+            offset.dy,
+            MediaQuery.of(context).size.width - offset.dx,
+            MediaQuery.of(context).size.height - offset.dy,
+          ),
+          items: [
+            PopupMenuItem(
+              onTap: (){
+               context.read<VoiceNotesCubit>().deleteRecordFile(voiceNoteInfo);
+              },
+              child: Text("Delete",style: AppTextStyles.medium(),),
+            )
+          ]
         );
       },
       child: Padding(
@@ -62,6 +60,7 @@ class VoiceNoteCard extends StatelessWidget {
             ),
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Expanded(
                 child: Column(
@@ -70,32 +69,26 @@ class VoiceNoteCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         voiceNoteInfo.name,
-                        textAlign: TextAlign.right,
-                        style: const TextStyle(
+                        style: AppTextStyles.bold(
                           color: AppColors.black900,
                           fontSize: 18,
-                          fontFamily: 'Dubai',
-                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
+
                     Expanded(
-                      child: Text(
-                        _formatDate(voiceNoteInfo.createAt),//'11:59 . 13 Oct 2024',
-                        textAlign: TextAlign.right,
-                        style: const TextStyle(
+                      child: Text(_formatDate(voiceNoteInfo.createAt),
+                        style: AppTextStyles.regular(
                           color: AppColors.grey,
                           fontSize: 14,
-                          fontFamily: 'Dubai',
-                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),
 
-              PlayPauseButton(
+              const PlayPauseButton(
                 isPlaying: false,
                 onTap: null,
               )
@@ -103,6 +96,7 @@ class VoiceNoteCard extends StatelessWidget {
           ),
         ),
       ),
+
     );
   }
 
