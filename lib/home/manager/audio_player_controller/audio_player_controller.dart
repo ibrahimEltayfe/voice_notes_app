@@ -3,8 +3,17 @@ import 'package:just_audio/just_audio.dart';
 class AudioPlayerController{
   final AudioPlayer _audioPlayer = AudioPlayer();
 
-  Stream<int> get progressStream => _audioPlayer.positionStream.map((duration) => duration.inMilliseconds);
-  int get duration => _audioPlayer.duration?.inMilliseconds ?? 0;
+  Stream<int> get progressStream => _audioPlayer.positionStream.map((progress) {
+    final currentProgress = progress.inMilliseconds;
+    if(currentProgress == durationInMill){
+      _audioPlayer.pause();
+      _audioPlayer.seek(Duration.zero);
+    }
+
+    return currentProgress;
+  });
+
+  int get durationInMill => _audioPlayer.duration?.inMilliseconds ?? 0;
   Stream<bool> get playStatusStream => _audioPlayer.playingStream;
 
   Future<void> loadAudio(String filePath) async{

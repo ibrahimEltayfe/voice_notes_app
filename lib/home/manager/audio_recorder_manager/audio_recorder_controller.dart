@@ -72,9 +72,8 @@ class AudioRecorderController{
     await _audioRecorder.pause();
   }
 
-  void stop(Function(VoiceNoteModel voiceNoteModel) onStop) async{
+  void stop(Function(VoiceNoteModel? voiceNoteModel) onStop) async{
     final recordPath = await _audioRecorder.stop();
-
     if (recordPath != null){
       onStop(
         VoiceNoteModel(
@@ -84,6 +83,7 @@ class AudioRecorderController{
         )
       );
     }else{
+      onStop(null);
       onError("Could not stop the record");
     }
 

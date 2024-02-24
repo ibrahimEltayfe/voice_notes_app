@@ -34,7 +34,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
     return FutureBuilder(
       future: loadAudio,
       builder: (context, snapshot) {
-        final audioDuration = audioPlayerController.duration.toDouble();
+        final audioDuration = audioPlayerController.durationInMill.toDouble();
 
         return StreamBuilder(
           stream: audioPlayerController.progressStream,

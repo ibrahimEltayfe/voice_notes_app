@@ -102,9 +102,14 @@ class _AudioRecorderViewBodyState extends State<_AudioRecorderViewBody> {
               GestureDetector(
                 onTap: (){
                   context.read<AudioRecorderController>().stop((voiceNoteModel){
-                    context.read<AudioRecorderController>().delete(voiceNoteModel.path).then((value){
+                    if(voiceNoteModel == null){
                       Navigator.pop(context);
-                    });
+                    }else{
+                      context.read<AudioRecorderController>().delete(voiceNoteModel.path).then((value){
+                        Navigator.pop(context);
+                      });
+                    }
+
                   });
                 },
                 child: Text(
