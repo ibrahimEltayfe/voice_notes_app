@@ -1,11 +1,11 @@
 # voice_notes
 
 <p float="left">
-  <img src="https://user-images.githubusercontent.com/40795940/229274573-7dcabe66-effd-41a2-a613-b052d6cab936.png" width="300" >
-  <img src="https://user-images.githubusercontent.com/40795940/229274583-b808015a-2343-4239-a1f0-615b61e4d3d2.png" width="300">
+  <img src="https://github.com/user-attachments/assets/333670e1-c693-401a-bbef-96b19e60e833" width="300" >
+  <img src="https://github.com/user-attachments/assets/db47ed41-1e48-4654-900a-ab1de2d36251" width="300">
 </p>
 
 <p float="left">
-  <img src="https://user-images.githubusercontent.com/40795940/229274573-7dcabe66-effd-41a2-a613-b052d6cab936.png" width="300" >
-  <img src="https://user-images.githubusercontent.com/40795940/229274583-b808015a-2343-4239-a1f0-615b61e4d3d2.png" width="300">
+  <img src="https://github.com/user-attachments/assets/379041f7-bb8b-475e-aaa8-9a33e3b9a17b" width="300" >
+  <img src="https://github.com/user-attachments/assets/8ea6868c-6d08-4771-9717-0527c64e6f85" width="300">
 </p>
