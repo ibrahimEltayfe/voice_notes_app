@@ -1,16 +1,11 @@
 # voice_notes
 
-A new Flutter project.
+<p float="left">
+  <img src="https://user-images.githubusercontent.com/40795940/229274573-7dcabe66-effd-41a2-a613-b052d6cab936.png" width="300" >
+  <img src="https://user-images.githubusercontent.com/40795940/229274583-b808015a-2343-4239-a1f0-615b61e4d3d2.png" width="300">
+</p>
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<p float="left">
+  <img src="https://user-images.githubusercontent.com/40795940/229274573-7dcabe66-effd-41a2-a613-b052d6cab936.png" width="300" >
+  <img src="https://user-images.githubusercontent.com/40795940/229274583-b808015a-2343-4239-a1f0-615b61e4d3d2.png" width="300">
+</p>
